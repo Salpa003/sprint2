@@ -3,13 +3,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+
 public class FileReader {
     ArrayList<String> readFileContents(String fileName) {
         String path = "./resources/" + fileName;
         try {
+            Main.error = false;
             return new ArrayList<>(Files.readAllLines(Path.of(path)));
         } catch (IOException e) {
             System.out.println("Невозможно прочитать файл с отчётом. Возможно, файл отсутствует в нужной директории.");
+            Main.error = true;
             return new ArrayList<>();
         }
     }
