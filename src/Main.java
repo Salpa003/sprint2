@@ -18,9 +18,7 @@ public class Main {
         while (true) {
 
             int command;
-
             printMenu();
-
             command = scanner.nextInt();
 
             if (command <= 0 || command > 4) {
@@ -29,6 +27,7 @@ public class Main {
             }
 
             if (command == 1) {
+
                 int report;
                 while (true) {
                     printYearOrMonthReport();
@@ -37,10 +36,10 @@ public class Main {
                     if (report <= 0 || report > 2) {
                         System.out.println(incorrectInput);
                     } else break;
-
                 }
 
                 if (report == 1) {
+
                     int year;
                     while (true) {
                         printInputYear();
@@ -50,6 +49,7 @@ public class Main {
                             System.out.println(incorrectInput);
                         } else break;
                     }
+
                     int month;
                     while (true) {
                         printInputMonthNumber();
@@ -58,21 +58,23 @@ public class Main {
                             System.out.println(incorrectInput);
                         } else break;
                     }
+
                     String e;
                     if (month < 10) {
                         e = "0" + month;
                     } else {
                         e = String.valueOf(month);
                     }
+
                     String form = "m." + year + e + ".csv";
                     ArrayList<String> lines = fileReader.readFileContents(form);
                     MonthlyReport.put(form, lines);
                     if (!error) {
                         System.out.println("Считывание отчёта за " + month + " месяц " + year + " года успешно завершенно !\n");
                     }
-                }
 
-                if (report == 2) {
+                } else if (report == 2) {
+
                     int year;
                     while (true) {
                         printInputYear();
@@ -81,6 +83,7 @@ public class Main {
                             System.out.println(incorrectInput);
                         } else break;
                     }
+
                     String form = "y." + year + ".csv";
                     ArrayList<String> lines = fileReader.readFileContents(form);
                     YearlyReport.put(form, lines);
@@ -89,11 +92,13 @@ public class Main {
                     }
                 }
             } else if (command == 2) {
-                int year;
+
                 if (strings.size() != strings2.size()) {
                     System.out.println("Для начало необходимо считать отчёты со всех файлов !\n");
                     continue;
                 }
+
+                int year;
                 while (true) {
                     printInputYear();
                     year = scanner.nextInt();
@@ -101,6 +106,7 @@ public class Main {
                         System.out.println(incorrectInput);
                     } else break;
                 }
+
                 boolean error = false;
                 for (int i = 1; i <= 3; i++) {
                     long profit = 0, expense = 0;
@@ -113,6 +119,7 @@ public class Main {
                             profit += ((long) Integer.parseInt(lines[2]) * Integer.parseInt(lines[3]));
                         }
                     }
+
                     ArrayList<String> yearList = YearlyReport.get("y." + year + ".csv");
                     for (int j = 1; j < yearList.size(); j++) {
                         String[] lines = yearList.get(j).split(",");
@@ -141,6 +148,7 @@ public class Main {
                     System.out.println("Отчёты за месяцы и за год равны ! ("+year+")\n");
                 }
             } else if (command == 3) {
+
                 int report;
                 while (true) {
                     printInfoMonthOrYear();
@@ -151,7 +159,9 @@ public class Main {
                         System.out.println(incorrectInput);
                     }
                 }
+
                 if (report == 1) {
+
                     int month;
                     while (true) {
                         printInputMonthNumber();
@@ -161,6 +171,7 @@ public class Main {
                         else
                             System.out.println(incorrectInput);
                     }
+
                     String e = month < 10 ? "0" + month : String.valueOf(month);
                     if (!strings2.contains("m.2021" + e + ".csv")) {
                         System.out.println("Для начало необходимо считать отчёт за " + month + " месяц из файла !\n");
@@ -171,7 +182,9 @@ public class Main {
                     String profitName = "ошибка";
                     int expenseMax = 0;
                     String expenseName = "ошибка";
+
                     ArrayList<String> arrayList = MonthlyReport.get("m.2021" + e + ".csv");
+
                     for (int i = 1; i < arrayList.size(); i++) {
                         String[] lines = arrayList.get(i).split(",");
                         if (Boolean.parseBoolean(lines[1])) {
@@ -184,10 +197,13 @@ public class Main {
                             profitName = lines[0];
                         }
                     }
+
                     System.out.println("Информация за " + getMonthNameFromInt(month) + "!");
                     System.out.println("Самый прибыльный товар : " + profitName + " , был продан на суму = " + profitMax);
                     System.out.println("Самая большая трата : " + expenseName + " , было потраченно = " + expenseMax + "\n");
+
                 } else if (report == 2) {
+
                     int year;
                     while (true) {
                         printInputYear();
@@ -196,10 +212,12 @@ public class Main {
                             System.out.println(incorrectInput);
                         } else break;
                     }
+
                     if (strings.size() != strings2.size()) {
                         System.out.println("Для начало необходимо считать отчёты  из  файлов !\n");
                         continue;
                     }
+
                     System.out.println("Информация за " + year + " год !");
                     ArrayList<String> profitYear = YearlyReport.get("y." + year + ".csv");
                     for (int i = 1; i <= 3; i++) {
